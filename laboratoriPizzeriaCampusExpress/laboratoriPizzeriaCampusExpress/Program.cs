@@ -1,15 +1,15 @@
 ﻿/*
  * Created by SharpDevelop.
- * User: jdcad
- * Date: 22/5/2026
- * Time: 3:17 a. m.
+ * User: PC
+ * Date: 22/05/2026
+ * Time: 19:11
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
 using System.Windows.Forms;
 
-namespace laboratoriPizzeriaExpress
+namespace laboratoriPizzeriaCampusExpress
 {
 	/// <summary>
 	/// Class with program entry point.

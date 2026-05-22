@@ -27,13 +27,16 @@ namespace laboratoriPizzeriaCampusExpress
             string cliente = txtCliente.Text.Trim();
 
             // Validar entrada
-            
+             if (cliente == "")
+            {
+                lblEstado.Text = string.Format("⚠️ Debe ingresar un nombre de cliente.");
+                return;
+            }
 
             // Agregar a la cola
-            
-
+             colaPedidos.Enqueue(cliente);
             // Registrar en la pila
-            
+            pilaBitacora.Push(string.Format("PEDIDO: {0}", cliente));
 
             // Limpiar campo y actualizar
             txtCliente.Clear();
@@ -70,11 +73,11 @@ namespace laboratoriPizzeriaCampusExpress
             if (ultimaAccion.StartsWith("PEDIDO:"))
             {
                 // Extraer nombre del cliente
-                
+                string nombre = ultimaAccion.Replace("PEDIDO: ", "").Trim();
                 // Reconstruir cola excluyendo ese pedido
-               
-                colaPedidos.Clear();
-                foreach (string p in temporal)
+                 string[] temporal = colaPedidos.ToArray();
+                 colaPedidos.Clear();
+                  foreach (string p in temporal)
                 {
                     if (p != nombre)
                         colaPedidos.Enqueue(p);
@@ -84,10 +87,11 @@ namespace laboratoriPizzeriaCampusExpress
             else if (ultimaAccion.StartsWith("ENTREGADO:"))
             {
                 // Extraer nombre del cliente
-               
+                 string nombre = ultimaAccion.Replace("ENTREGADO: ", "").Trim();
+                colaPedidos.Enqueue(nombre);
                 // Volver a encolar
-               
                 lblEstado.Text = string.Format("↩️ Se deshizo la entrega a {0}", nombre);
+
             }
             else
             {
@@ -129,5 +133,29 @@ namespace laboratoriPizzeriaCampusExpress
             lblContador.Text = string.Format("Pedidos: {0} | Bitácora: {1}",
                 colaPedidos.Count, pilaBitacora.Count);
         }
+		void BtnPremiumClick(object sender, EventArgs e)
+		{
+		string cliente = txtCliente.Text.Trim();
+
+		    if (cliente == "")
+		    {
+		        lblEstado.Text = " Debe ingresar un nombre de cliente!";
+		        return;
+		    }
+		
+		    string clienteVIP = " Pedido Premium  " + cliente;
+		    string[] pedidosRegulares = colaPedidos.ToArray();
+		    colaPedidos.Clear();
+		    colaPedidos.Enqueue(clienteVIP);
+		    foreach (string p in pedidosRegulares)
+		    {
+		        colaPedidos.Enqueue(p);
+		    }
+			    pilaBitacora.Push(string.Format("PEDIDO: {0}", clienteVIP));
+		    txtCliente.Clear();
+		    lblEstado.Text = string.Format(" Pedido Premium registrado. {0} saltó la fila.", cliente);
+		    txtCliente.Focus();
+		    ActualizarUI();
+		}
     }
 }
